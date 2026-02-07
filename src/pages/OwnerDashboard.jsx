@@ -4,11 +4,11 @@ import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import { db } from '../firebase';
-import { collection, query, where, onSnapshot, doc, updateDoc, orderBy, addDoc, serverTimestamp } from 'firebase/firestore';
-import { Check, X, Plus, Video, Database } from 'lucide-react';
+import { collection, query, where, onSnapshot, doc, updateDoc, orderBy } from 'firebase/firestore';
+import { Check, X, Plus, Video } from 'lucide-react';
 import CameraForm from '../components/CameraForm';
+import CameraViewer from '../components/CameraViewer';
 import { useAuth } from '../context/AuthContext';
-import { demoCameras } from '../data/demoCameras';
 
 const OwnerDashboard = () => {
     const { user } = useAuth();
@@ -16,7 +16,7 @@ const OwnerDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [cameras, setCameras] = useState([]);
     const [showCameraForm, setShowCameraForm] = useState(false);
-    const [seeding, setSeeding] = useState(false);
+    const [selectedCamera, setSelectedCamera] = useState(null);
 
     useEffect(() => {
         if (!user) return;
@@ -81,31 +81,6 @@ const OwnerDashboard = () => {
         }
     };
 
-    const handleSeedDemoCameras = async () => {
-        if (!confirm('This will add 6 demo cameras to your account. Continue?')) {
-            return;
-        }
-
-        setSeeding(true);
-        try {
-            for (const camera of demoCameras) {
-                await addDoc(collection(db, 'cameras'), {
-                    ...camera,
-                    ownerId: user.uid,
-                    ownerName: user.name || 'Demo Owner',
-                    timestamp: serverTimestamp(),
-                    createdAt: new Date().toISOString(),
-                    isDemo: true
-                });
-            }
-            alert(`Successfully added ${demoCameras.length} demo cameras!`);
-        } catch (error) {
-            console.error('Error seeding cameras:', error);
-            alert('Error adding demo cameras: ' + error.message);
-        }
-        setSeeding(false);
-    };
-
     return (
         <>
             <Navbar />
@@ -158,16 +133,11 @@ const OwnerDashboard = () => {
                     </Card>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', marginBottom: '1rem' }}>
                     <h3 style={{ margin: 0 }}>My Cameras</h3>
-                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-                        <Button onClick={handleSeedDemoCameras} disabled={seeding} variant="secondary" style={{ gap: '8px' }}>
-                            <Database size={18} /> {seeding ? 'Adding...' : 'Seed Demo Cameras'}
-                        </Button>
-                        <Button onClick={() => setShowCameraForm(!showCameraForm)} style={{ gap: '8px' }}>
-                            <Plus size={18} /> {showCameraForm ? 'Cancel' : 'Add Camera'}
-                        </Button>
-                    </div>
+                    <Button onClick={() => setShowCameraForm(!showCameraForm)} style={{ gap: '8px' }}>
+                        <Plus size={18} /> {showCameraForm ? 'Cancel' : 'Add Camera'}
+                    </Button>
                 </div>
 
                 {showCameraForm && (
@@ -176,12 +146,24 @@ const OwnerDashboard = () => {
                     </div>
                 )}
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem' }}>
                     {cameras.length === 0 ? (
                         <p className="text-muted">No cameras registered yet.</p>
                     ) : (
                         cameras.map(cam => (
-                            <Card key={cam.id}>
+                            <Card 
+                                key={cam.id}
+                                style={{ cursor: 'pointer', transition: 'transform 0.2s, box-shadow 0.2s' }}
+                                onMouseEnter={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(-4px)';
+                                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
+                                }}
+                                onMouseLeave={(e) => {
+                                    e.currentTarget.style.transform = 'translateY(0)';
+                                    e.currentTarget.style.boxShadow = 'none';
+                                }}
+                                onClick={() => setSelectedCamera(cam)}
+                            >
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                                     <Video size={24} className="text-secondary" />
                                     <span className={`status-badge ${cam.status === 'active' ? 'text-success' : 'text-warning'}`} style={{ fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase' }}>{cam.status}</span>
@@ -191,11 +173,31 @@ const OwnerDashboard = () => {
                                 {cam.location && (
                                     <p className="text-muted" style={{ fontSize: '0.7rem' }}>Lat: {cam.location.lat.toFixed(4)}</p>
                                 )}
+                                {cam.isDemo && (
+                                    <span style={{ 
+                                        display: 'inline-block',
+                                        marginTop: '0.5rem',
+                                        padding: '2px 8px',
+                                        fontSize: '0.7rem',
+                                        backgroundColor: 'var(--primary-light)',
+                                        color: 'var(--primary)',
+                                        borderRadius: '4px',
+                                        fontWeight: 'bold'
+                                    }}>LIVE FEED</span>
+                                )}
                             </Card>
                         ))
                     )}
                 </div>
             </div>
+            
+            {/* Camera Viewer Modal */}
+            {selectedCamera && (
+                <CameraViewer 
+                    camera={selectedCamera} 
+                    onClose={() => setSelectedCamera(null)} 
+                />
+            )}
         </>
     );
 };
