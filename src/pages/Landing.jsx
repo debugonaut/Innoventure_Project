@@ -1,11 +1,39 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import Button from '../components/common/Button';
 import Navbar from '../components/layout/Navbar';
+import RoleSelector from '../components/auth/RoleSelector';
+import AuthModal from '../components/auth/AuthModal';
 import './Landing.css';
 import { Eye, ShieldCheck, Lock } from 'lucide-react';
 
 const Landing = () => {
+    const [selectedRole, setSelectedRole] = useState(null);
+    const { isAuthenticated, user } = useAuth();
+    const navigate = useNavigate();
+
+    // Redirect if already authenticated
+    React.useEffect(() => {
+        if (isAuthenticated && user) {
+            if (user.role === 'owner') {
+                navigate('/owner');
+            } else if (user.role === 'citizen') {
+                navigate('/dashboard');
+            } else if (user.role === 'admin') {
+                navigate('/admin');
+            }
+        }
+    }, [isAuthenticated, user, navigate]);
+
+    const handleRoleSelect = (role) => {
+        setSelectedRole(role);
+    };
+
+    const handleCloseAuth = () => {
+        setSelectedRole(null);
+    };
+
     return (
         <>
             <Navbar />
@@ -15,15 +43,10 @@ const Landing = () => {
                     <p className="hero-subtitle">
                         A privacy-first platform that empowers citizens to request footage for valid reasons, while giving owners full control and incentives.
                     </p>
-                    <div className="hero-actions">
-                        <Link to="/register">
-                            <Button size="lg" style={{ padding: '0.75rem 2rem', fontSize: '1.1rem' }}>Get Started</Button>
-                        </Link>
-                        <Link to="/login">
-                            <Button variant="outline" size="lg" style={{ padding: '0.75rem 2rem', fontSize: '1.1rem' }}>Log In</Button>
-                        </Link>
-                    </div>
                 </section>
+
+                {/* Role Selection */}
+                <RoleSelector onSelectRole={handleRoleSelect} />
 
                 <section className="features-grid">
                     <div className="feature-item">
@@ -43,6 +66,11 @@ const Landing = () => {
                     </div>
                 </section>
             </div>
+
+            {/* Auth Modal */}
+            {selectedRole && (
+                <AuthModal role={selectedRole} onClose={handleCloseAuth} />
+            )}
         </>
     );
 };

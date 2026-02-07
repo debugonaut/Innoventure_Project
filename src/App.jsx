@@ -3,8 +3,6 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import { DataProvider } from './context/DataContext';
 
 import Landing from './pages/Landing';
-import Login from './pages/Login';
-import Register from './pages/Register';
 import UserDashboard from './pages/UserDashboard';
 import OwnerDashboard from './pages/OwnerDashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -13,7 +11,7 @@ import AdminDashboard from './pages/AdminDashboard';
 const ProtectedRoute = ({ children, allowedRoles = [] }) => {
   const { user, isAuthenticated } = useAuth();
 
-  if (!isAuthenticated) return <Navigate to="/login" />;
+  if (!isAuthenticated) return <Navigate to="/" />;
   if (allowedRoles.length > 0 && !allowedRoles.includes(user.role)) {
     return <Navigate to="/" />;
   }
@@ -28,8 +26,6 @@ function App() {
         <DataProvider>
           <Routes>
             <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
 
             <Route
               path="/dashboard"
@@ -57,6 +53,10 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            
+            {/* Redirect old routes to landing */}
+            <Route path="/login" element={<Navigate to="/" replace />} />
+            <Route path="/register" element={<Navigate to="/" replace />} />
           </Routes>
         </DataProvider>
       </AuthProvider>

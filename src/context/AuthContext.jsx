@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const loginWithGoogle = async () => {
+    const loginWithGoogle = async (role = null) => {
         try {
             const provider = new GoogleAuthProvider();
             const result = await signInWithPopup(auth, provider);
@@ -81,17 +81,28 @@ export const AuthProvider = ({ children }) => {
             // Check if user exists
             const userDoc = await getDoc(doc(db, "users", user.uid));
             if (!userDoc.exists()) {
+                // New user - create with specified role or default to citizen
                 await setDoc(doc(db, "users", user.uid), {
                     uid: user.uid,
                     name: user.displayName,
                     email: user.email,
-                    role: 'citizen',
+                    role: role || 'citizen',
                     createdAt: new Date()
                 });
             }
             return user;
         } catch (error) {
             console.error("Google sign in error", error);
+            throw error;
+        }
+    };
+
+    const resetPassword = async (email) => {
+        try {
+            const { sendPasswordResetEmail } = await import('firebase/auth');
+            await sendPasswordResetEmail(auth, email);
+        } catch (error) {
+            console.error("Password reset error", error);
             throw error;
         }
     };
@@ -109,6 +120,7 @@ export const AuthProvider = ({ children }) => {
         signup,
         login,
         loginWithGoogle,
+        resetPassword,
         logout,
         isAuthenticated: !!user
     };
