@@ -1,0 +1,90 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ============================================
+# SECURITY - ENVIRONMENT & CREDENTIALS
+# ============================================
+# Environment variables (all variations)
+.env
+.env.local
+.env.*.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.production
+.env.production.local
+.env.staging
+.env.staging.local
+
+# Firebase & Google Cloud credentials
+firebase-debug.log
+firestore-debug.log
+firebase-key.json
+service-account*.json
+google-credentials.json
+gcloud-key.json
+
+# AWS credentials
+.aws/
+*.pem
+*.key
+
+# Private keys & certificates
+*.p12
+*.pfx
+*.cert
+*.crt
+*.der
+*.cer
+private-key*.json
+privatekey*.json
+id_rsa
+id_rsa.pub
+id_dsa
+id_dsa.pub
+id_ecdsa
+id_ecdsa.pub
+id_ed25519
+id_ed25519.pub
+
+# API keys & secrets
+secrets.json
+secrets.yaml
+secrets.yml
+api-keys.json
+.secrets/
+credentials.json
+
+# Database dumps & backups
+*.sql
+*.sqlite
+*.db
+*.dump
+backup/
+*.backup
+
+# VS Code workspace settings (may contain paths)
+.vscode/settings.json
