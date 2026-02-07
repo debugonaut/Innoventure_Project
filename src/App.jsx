@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { DataProvider } from './context/DataContext';
+import { ThemeProvider } from './context/ThemeContext';
+import BackgroundGlow from './components/common/BackgroundGlow';
 
 import Landing from './pages/Landing';
 import UserDashboard from './pages/UserDashboard';
@@ -22,44 +24,47 @@ const ProtectedRoute = ({ children, allowedRoles = [] }) => {
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <DataProvider>
-          <Routes>
-            <Route path="/" element={<Landing />} />
+      <ThemeProvider>
+        <BackgroundGlow />
+        <AuthProvider>
+          <DataProvider>
+            <Routes>
+              <Route path="/" element={<Landing />} />
 
-            <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute allowedRoles={['citizen']}>
-                  <UserDashboard />
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={['citizen']}>
+                    <UserDashboard />
+                  </ProtectedRoute>
+                }
+              />
 
-            <Route
-              path="/owner"
-              element={
-                <ProtectedRoute allowedRoles={['owner']}>
-                  <OwnerDashboard />
-                </ProtectedRoute>
-              }
-            />
+              <Route
+                path="/owner"
+                element={
+                  <ProtectedRoute allowedRoles={['owner']}>
+                    <OwnerDashboard />
+                  </ProtectedRoute>
+                }
+              />
 
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute allowedRoles={['admin']}>
-                  <AdminDashboard />
-                </ProtectedRoute>
-              }
-            />
-            
-            {/* Redirect old routes to landing */}
-            <Route path="/login" element={<Navigate to="/" replace />} />
-            <Route path="/register" element={<Navigate to="/" replace />} />
-          </Routes>
-        </DataProvider>
-      </AuthProvider>
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute allowedRoles={['admin']}>
+                    <AdminDashboard />
+                  </ProtectedRoute>
+                }
+              />
+              
+              {/* Redirect old routes to landing */}
+              <Route path="/login" element={<Navigate to="/" replace />} />
+              <Route path="/register" element={<Navigate to="/" replace />} />
+            </Routes>
+          </DataProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 }

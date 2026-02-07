@@ -1,0 +1,50 @@
+.theme-toggle {
+    position: relative;
+    width: 64px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    border: 2px solid var(--border);
+    background-color: var(--surface);
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+    display: flex;
+    align-items: center;
+    padding: 2px;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.theme-toggle-indicator {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-inverse);
+    transition: transform 300ms ease-in-out;
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle-indicator.light {
+    transform: translateX(2px);
+}
+
+.theme-toggle-indicator.dark {
+    transform: translateX(34px);
+}
+
+[data-theme="dark"] .theme-toggle {
+    background-color: var(--surface);
+    border-color: var(--border);
+}

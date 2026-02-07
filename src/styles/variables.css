@@ -42,7 +42,7 @@
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   
   /* Typography */
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
@@ -55,4 +55,35 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  /* Colors */
+  --primary: #3B82F6; /* Slightly brighter blue for dark mode */
+  --primary-hover: #2563EB;
+  --primary-light: #1E3A8A;
+  
+  --secondary: #94A3B8; /* Lighter slate */
+  --secondary-hover: #CBD5E1;
+  
+  --success: #34D399;
+  --warning: #FBBF24;
+  --danger: #F87171;
+  
+  --background: #0F172A; /* Slate 900 */
+  --surface: #1E293B; /* Slate 800 */
+  --surface-hover: #334155; /* Slate 700 */
+  
+  --text-main: #F8FAFC; /* Slate 50 */
+  --text-muted: #94A3B8; /* Slate 400 */
+  --text-inverse: #0F172A;
+  
+  --border: #334155; /* Slate 700 */
+  
+  /* Shadows - adjusted for dark mode */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.5);
 }

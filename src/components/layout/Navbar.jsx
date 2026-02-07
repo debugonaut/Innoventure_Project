@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import Button from '../common/Button';
+import ThemeToggle from '../common/ThemeToggle';
 import './Navbar.css';
 import { Camera, Shield } from 'lucide-react';
 
@@ -23,6 +24,7 @@ const Navbar = () => {
                 </Link>
 
                 <div className="nav-links">
+                    <ThemeToggle />
                     {!user ? (
                         <>
                             <Link to="/login" className="nav-link">Login</Link>

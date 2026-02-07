@@ -1,0 +1,63 @@
+.background-glow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 1;
+    transition: all 300ms ease-in-out;
+}
+
+/* First orb - top left */
+.glow-orb-1 {
+    width: 500px;
+    height: 500px;
+    top: -150px;
+    left: -100px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(37, 99, 235, 0.05) 50%, transparent 100%);
+}
+
+/* Second orb - center right */
+.glow-orb-2 {
+    width: 600px;
+    height: 600px;
+    top: 40%;
+    right: -200px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.04) 50%, transparent 100%);
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .glow-orb-1 {
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 100%);
+}
+
+[data-theme="dark"] .glow-orb-2 {
+    background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(96, 165, 250, 0.06) 50%, transparent 100%);
+}
+
+/* Add subtle animation (optional) */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) translateX(0);
+    }
+    50% {
+        transform: translateY(-20px) translateX(20px);
+    }
+}
+
+.glow-orb-1 {
+    animation: float 15s ease-in-out infinite;
+}
+
+.glow-orb-2 {
+    animation: float 20s ease-in-out infinite reverse;
+}

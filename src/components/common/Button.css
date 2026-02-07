@@ -11,11 +11,13 @@
     transition: all 0.2s ease;
     font-size: 0.95rem;
     border: 1px solid transparent;
+    box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.2);
 }
 
 .btn:hover:not(:disabled) {
     background-color: var(--primary-hover);
-    transform: translateY(-1px);
+    transform: translateY(-1px) scale(1.02);
+    box-shadow: 0 6px 20px 0 rgba(37, 99, 235, 0.3);
 }
 
 .btn:disabled {
