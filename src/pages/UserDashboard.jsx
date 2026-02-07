@@ -5,13 +5,14 @@ import ComplaintForm from '../components/ComplaintForm';
 import { useAuth } from '../context/AuthContext';
 import { db } from '../firebase';
 import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
-import { Clock } from 'lucide-react';
+import { Clock, AlertCircle } from 'lucide-react';
 import './UserDashboard.css';
 
 const UserDashboard = () => {
     const { user } = useAuth();
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (!user) return;
@@ -29,9 +30,25 @@ const UserDashboard = () => {
             }));
             setRequests(reqs);
             setLoading(false);
+            setError(null);
         }, (error) => {
             console.error("Error fetching requests:", error);
             setLoading(false);
+            
+            // Check if it's an index error
+            if (error.code === 'failed-precondition' || error.message.includes('index')) {
+                setError({
+                    type: 'index',
+                    message: 'Database index required',
+                    details: error.message
+                });
+            } else {
+                setError({
+                    type: 'generic',
+                    message: 'Failed to load complaints',
+                    details: error.message
+                });
+            }
         });
 
         return () => unsubscribe();
@@ -49,6 +66,61 @@ const UserDashboard = () => {
                     <Card title="My Complaints & Requests" style={{ height: '100%', overflowY: 'auto' }}>
                         {loading ? (
                             <p className="text-muted">Loading requests...</p>
+                        ) : error ? (
+                            <div style={{ 
+                                padding: '1rem', 
+                                background: 'var(--bg-secondary)', 
+                                borderRadius: '8px',
+                                border: '1px solid var(--warning)'
+                            }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                                    <AlertCircle size={20} color="var(--warning)" />
+                                    <strong style={{ color: 'var(--warning)' }}>{error.message}</strong>
+                                </div>
+                                
+                                {error.type === 'index' ? (
+                                    <>
+                                        <p style={{ fontSize: '0.9rem', marginBottom: '12px' }}>
+                                            A database index is required to display your complaints. This is a one-time setup.
+                                        </p>
+                                        
+                                        <div style={{ 
+                                            background: 'var(--background)', 
+                                            padding: '12px', 
+                                            borderRadius: '6px',
+                                            fontSize: '0.85rem',
+                                            marginBottom: '12px'
+                                        }}>
+                                            <strong>How to fix:</strong>
+                                            <ol style={{ marginTop: '8px', marginBottom: '0', paddingLeft: '20px' }}>
+                                                <li>Open the browser console (F12 or Cmd+Option+I)</li>
+                                                <li>Look for a Firebase error with a link</li>
+                                                <li>Click the link to create the index automatically</li>
+                                                <li>Wait 1-2 minutes for the index to build</li>
+                                                <li>Refresh this page</li>
+                                            </ol>
+                                        </div>
+                                        
+                                        <details style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                                            <summary style={{ cursor: 'pointer', marginBottom: '4px' }}>Technical details</summary>
+                                            <code style={{ 
+                                                display: 'block', 
+                                                background: '#000', 
+                                                color: '#0f0', 
+                                                padding: '8px', 
+                                                borderRadius: '4px',
+                                                overflowX: 'auto',
+                                                fontSize: '0.7rem',
+                                                marginTop: '4px'
+                                            }}>
+                                                {error.details}
+                                            </code>
+                                        </details>
+                                    </>
+                                ) : (
+                                    <p style={{ fontSize: '0.85rem' }}>{error.details}</p>
+                                )}
+                            </div>
                         ) : requests.length === 0 ? (
                             <p className="text-muted">No active requests. Register one to get started.</p>
                         ) : (
