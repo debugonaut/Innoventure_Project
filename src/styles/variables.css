@@ -72,15 +72,15 @@ body {
   --warning: #FBBF24;
   --danger: #F87171;
   
-  --background: #0F172A; /* Slate 900 */
-  --surface: #1E293B; /* Slate 800 */
-  --surface-hover: #334155; /* Slate 700 */
+  --background: #000000; /* Pure Black */
+  --surface: #0A0A0A; /* Almost Black */
+  --surface-hover: #171717; /* Dark Gray */
   
-  --text-main: #F8FAFC; /* Slate 50 */
+  --text-main: #FFFFFF; /* Pure White */
   --text-muted: #94A3B8; /* Slate 400 */
-  --text-inverse: #0F172A;
+  --text-inverse: #000000;
   
-  --border: #334155; /* Slate 700 */
+  --border: #262626; /* Dark Gray Border */
   
   /* Shadows - adjusted for dark mode */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
