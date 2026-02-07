@@ -165,7 +165,17 @@ const OwnerDashboard = () => {
                                 onClick={() => setSelectedCamera(cam)}
                             >
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                                    <Video size={24} className="text-secondary" />
+                                    <div style={{ 
+                                        width: '40px', 
+                                        height: '40px', 
+                                        backgroundColor: 'var(--primary-light)', 
+                                        borderRadius: '50%', 
+                                        display: 'flex', 
+                                        alignItems: 'center', 
+                                        justifyContent: 'center' 
+                                    }}>
+                                        <Video size={20} style={{ color: 'var(--primary)' }} />
+                                    </div>
                                     <span className={`status-badge ${cam.status === 'active' ? 'text-success' : 'text-warning'}`} style={{ fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase' }}>{cam.status}</span>
                                 </div>
                                 <h4 style={{ marginTop: '1rem' }}>{cam.name}</h4>
