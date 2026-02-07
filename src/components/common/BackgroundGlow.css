@@ -23,7 +23,7 @@
     height: 500px;
     top: -150px;
     left: -100px;
-    background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, rgba(37, 99, 235, 0.05) 50%, transparent 100%);
+    background: rgba(37, 99, 235, 0.08);
 }
 
 /* Second orb - center right */
@@ -32,16 +32,16 @@
     height: 600px;
     top: 40%;
     right: -200px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.12) 0%, rgba(59, 130, 246, 0.04) 50%, transparent 100%);
+    background: rgba(59, 130, 246, 0.06);
 }
 
 /* Dark mode adjustments */
 [data-theme="dark"] .glow-orb-1 {
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.08) 50%, transparent 100%);
+    background: rgba(59, 130, 246, 0.12);
 }
 
 [data-theme="dark"] .glow-orb-2 {
-    background: radial-gradient(circle, rgba(96, 165, 250, 0.18) 0%, rgba(96, 165, 250, 0.06) 50%, transparent 100%);
+    background: rgba(96, 165, 250, 0.1);
 }
 
 /* Add subtle animation (optional) */

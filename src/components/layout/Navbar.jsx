@@ -25,14 +25,7 @@ const Navbar = () => {
 
                 <div className="nav-links">
                     <ThemeToggle />
-                    {!user ? (
-                        <>
-                            <Link to="/login" className="nav-link">Login</Link>
-                            <Link to="/register">
-                                <Button>Get Started</Button>
-                            </Link>
-                        </>
-                    ) : (
+                    {user && (
                         <>
                             <span className="nav-text" style={{ marginRight: '1rem' }}>
                                 Hello, {user.name || user.email} ({user.role})
