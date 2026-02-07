@@ -1,59 +1,70 @@
-// Demo Cameras Data - Public footage from legitimate sources
-// All footage URLs are from Google's public sample video repository
+// Demo Cameras Data - Real public CCTV/surveillance camera feeds
+// Sources: YouTube public live streams, public traffic cams, etc.
 
 export const demoCameras = [
     {
-        name: "Mumbai Traffic Cam - Bandra",
+        name: "Times Square Live Cam",
         type: "Outdoor",
         resolution: "1080p",
-        location: { lat: 19.0596, lng: 72.8295 },
+        location: { lat: 40.7580, lng: -73.9855 },
         status: "active",
-        footageUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-        description: "Public traffic monitoring camera"
+        // YouTube embed of Times Square live stream (EarthCam)
+        footageUrl: "https://www.youtube.com/embed/AdUw5RdyZxI?autoplay=1&mute=1",
+        streamType: "youtube",
+        description: "24/7 live feed from Times Square, NYC"
     },
     {
-        name: "Station Road Cam - Central",
+        name: "Tokyo Shibuya Crossing",
+        type: "Outdoor",
+        resolution: "1080p",
+        location: { lat: 35.6595, lng: 139.7004 },
+        status: "active",
+        // YouTube embed of Shibuya Crossing live stream
+        footageUrl: "https://www.youtube.com/embed/sfJkrvQ0tDg?autoplay=1&mute=1",
+        streamType: "youtube",
+        description: "Live view of world's busiest pedestrian crossing"
+    },
+    {
+        name: "London Abbey Road Crossing",
+        type: "Outdoor",
+        resolution: "1080p",
+        location: { lat: 51.5319, lng: -0.1769 },
+        status: "active",
+        // YouTube embed of Abbey Road crossing
+        footageUrl: "https://www.youtube.com/embed/oAoF0l4yNPw?autoplay=1&mute=1",
+        streamType: "youtube",
+        description: "Famous Beatles crossing live cam"
+    },
+    {
+        name: "Venice Italy Live Cam",
         type: "PTZ",
         resolution: "4K",
-        location: { lat: 18.9685, lng: 72.8205 },
+        location: { lat: 45.4408, lng: 12.3155 },
         status: "active",
-        footageUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-        description: "360° station entrance monitoring"
+        footageUrl: "https://www.youtube.com/embed/6WlI24rv__g?autoplay=1&mute=1",
+        streamType: "youtube",
+        description: "Live panoramic view of Venice canals"
     },
     {
-        name: "Colaba Causeway Cam",
+        name: "NYC Traffic Cam - Brooklyn Bridge",
         type: "Outdoor",
-        resolution: "1080p",
-        location: { lat: 18.9067, lng: 72.8147 },
+        resolution: "720p",
+        location: { lat: 40.7061, lng: -73.9969 },
         status: "active",
-        footageUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-        description: "Tourist area monitoring"
+        // Public surveillance footage sample (looped)
+        footageUrl: "https://www.youtube.com/embed/EEIk7gwjgIM?autoplay=1&mute=1&loop=1&playlist=EEIk7gwjgIM",
+        streamType: "youtube",
+        description: "Traffic monitoring camera"
     },
     {
-        name: "Gateway of India Cam",
-        type: "Outdoor",
-        resolution: "4K",
-        location: { lat: 18.9220, lng: 72.8347 },
-        status: "active",
-        footageUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-        description: "Tourist landmark monitoring"
-    },
-    {
-        name: "Metro Station Cam - Andheri",
-        type: "Indoor",
-        resolution: "1080p",
-        location: { lat: 19.1136, lng: 72.8697 },
-        status: "active",
-        footageUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
-        description: "Metro station interior"
-    },
-    {
-        name: "Marine Drive Promenade",
+        name: "ISS Live Earth View",
         type: "PTZ",
         resolution: "1080p",
-        location: { lat: 18.9432, lng: 72.8236 },
+        location: { lat: 0, lng: 0 },
         status: "active",
-        footageUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-        description: "Coastal promenade monitoring"
+        // ISS live feed from space
+        footageUrl: "https://www.youtube.com/embed/86YLFOog4GM?autoplay=1&mute=1",
+        streamType: "youtube",
+        description: "Live view from International Space Station"
     }
 ];
