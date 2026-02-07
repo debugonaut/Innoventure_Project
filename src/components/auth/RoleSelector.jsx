@@ -77,13 +77,13 @@ const RoleSelector = ({ onSelectRole }) => {
                         width: '80px', 
                         height: '80px', 
                         margin: '0 auto 1rem',
-                        backgroundColor: 'var(--secondary-light)',
+                        backgroundColor: 'var(--primary-light)',
                         borderRadius: '50%',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}>
-                        <Video size={40} style={{ color: 'var(--secondary)' }} />
+                        <Video size={40} style={{ color: 'var(--primary)' }} />
                     </div>
                     <h3 style={{ marginBottom: '0.5rem' }}>I'm a CCTV Owner</h3>
                     <p className="text-muted" style={{ fontSize: '0.9rem', lineHeight: '1.5' }}>
