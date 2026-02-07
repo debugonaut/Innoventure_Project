@@ -4,10 +4,11 @@ import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import Input from '../components/common/Input';
 import { db } from '../firebase';
-import { collection, query, where, onSnapshot, doc, updateDoc, orderBy } from 'firebase/firestore';
-import { Check, X, Plus, Video } from 'lucide-react';
+import { collection, query, where, onSnapshot, doc, updateDoc, orderBy, addDoc, serverTimestamp } from 'firebase/firestore';
+import { Check, X, Plus, Video, Database } from 'lucide-react';
 import CameraForm from '../components/CameraForm';
 import { useAuth } from '../context/AuthContext';
+import { demoCameras } from '../data/demoCameras';
 
 const OwnerDashboard = () => {
     const { user } = useAuth();
@@ -15,6 +16,7 @@ const OwnerDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [cameras, setCameras] = useState([]);
     const [showCameraForm, setShowCameraForm] = useState(false);
+    const [seeding, setSeeding] = useState(false);
 
     useEffect(() => {
         if (!user) return;
@@ -79,6 +81,31 @@ const OwnerDashboard = () => {
         }
     };
 
+    const handleSeedDemoCameras = async () => {
+        if (!confirm('This will add 6 demo cameras to your account. Continue?')) {
+            return;
+        }
+
+        setSeeding(true);
+        try {
+            for (const camera of demoCameras) {
+                await addDoc(collection(db, 'cameras'), {
+                    ...camera,
+                    ownerId: user.uid,
+                    ownerName: user.name || 'Demo Owner',
+                    timestamp: serverTimestamp(),
+                    createdAt: new Date().toISOString(),
+                    isDemo: true
+                });
+            }
+            alert(`Successfully added ${demoCameras.length} demo cameras!`);
+        } catch (error) {
+            console.error('Error seeding cameras:', error);
+            alert('Error adding demo cameras: ' + error.message);
+        }
+        setSeeding(false);
+    };
+
     return (
         <>
             <Navbar />
@@ -131,11 +158,16 @@ const OwnerDashboard = () => {
                     </Card>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', marginBottom: '1rem' }}>
-                    <h3>My Cameras</h3>
-                    <Button onClick={() => setShowCameraForm(!showCameraForm)} style={{ gap: '8px' }}>
-                        <Plus size={18} /> {showCameraForm ? 'Cancel Registration' : 'Add New Camera'}
-                    </Button>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '2rem', marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
+                    <h3 style={{ margin: 0 }}>My Cameras</h3>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                        <Button onClick={handleSeedDemoCameras} disabled={seeding} variant="secondary" style={{ gap: '8px' }}>
+                            <Database size={18} /> {seeding ? 'Adding...' : 'Seed Demo Cameras'}
+                        </Button>
+                        <Button onClick={() => setShowCameraForm(!showCameraForm)} style={{ gap: '8px' }}>
+                            <Plus size={18} /> {showCameraForm ? 'Cancel' : 'Add Camera'}
+                        </Button>
+                    </div>
                 </div>
 
                 {showCameraForm && (
